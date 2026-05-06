@@ -1,0 +1,202 @@
+<div class="widget">
+  <div class="date-block">
+    <div id="weekday" class="weekday"></div>
+    <div id="dateText" class="date-text"></div>
+  </div>
+
+  <div class="clock">
+    <div id="hours" class="time-text"></div>
+    <div class="colon">:</div>
+    <div id="minutes" class="time-text"></div>
+  </div>
+
+  <div class="weather">
+    <div class="weather-location">Lubliniec</div>
+    <div id="weatherIcon" class="weather-icon">☀️</div>
+    <div id="temp" class="temp">--°C</div>
+    <div id="weatherDesc" class="weather-desc">ładowanie pogody</div>
+  </div>
+
+  <div class="calendar">
+    <div id="monthLabel" class="month"></div>
+    <div class="weekdays">
+      <span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span>
+    </div>
+    <div id="calendarDays" class="days"></div>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+body {
+  margin: 0;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.widget {
+  width: 100%;
+  max-width: 98vw;
+  display: grid;
+  grid-template-columns: 1.35fr 1.25fr 1fr 1.35fr;
+  gap: 24px;
+  align-items: center;
+  padding: 32px 38px;
+  border-radius: 38px;
+  background: linear-gradient(135deg, rgba(255,250,246,0.7), rgba(246,232,224,0.5));
+  backdrop-filter: blur(18px);
+  color: #7A6256;
+}
+
+.date-block, .weather, .calendar {
+  text-align: center;
+}
+
+.weekday {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+}
+
+.date-text {
+  font-size: 14px;
+  color: #A78E82;
+}
+
+.clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.time-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px;
+}
+
+.colon {
+  font-size: 52px;
+}
+
+.weather-icon {
+  font-size: 42px;
+}
+
+.temp {
+  font-size: 40px;
+}
+
+.weekdays, .days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.days span.today {
+  background: #B49A8E;
+  color: white;
+  border-radius: 8px;
+}
+</style>
+
+<script>
+const apiKey = "d356336eace22d3d7aac5bf34a478ac7";
+
+async function loadWeather() {
+  try {
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Lubliniec,PL&units=metric&lang=pl&appid=${apiKey}`);
+    const data = await res.json();
+
+    if (data.cod !== 200) {
+      document.getElementById("weatherDesc").textContent = "błąd API";
+      return;
+    }
+
+    document.getElementById("temp").textContent =
+      Math.round(data.main.temp) + "°C";
+
+    document.getElementById("weatherDesc").textContent =
+      data.weather[0].description;
+
+    document.getElementById("weatherIcon").textContent =
+      getWeatherEmoji(data.weather[0].description);
+
+  } catch {
+    document.getElementById("weatherDesc").textContent = "błąd połączenia";
+  }
+}
+
+function getWeatherEmoji(description) {
+  const desc = description.toLowerCase();
+
+  if (desc.includes("bezchmurnie")) return "☀️";
+  if (desc.includes("słonecznie")) return "☀️";
+  if (desc.includes("zachmurzenie") || desc.includes("chmury")) return "☁️";
+  if (desc.includes("deszcz")) return "🌧️";
+  if (desc.includes("burza")) return "⛈️";
+  if (desc.includes("śnieg")) return "❄️";
+  if (desc.includes("mgła")) return "🌫️";
+
+  return "☀️";
+}
+
+function updateClock() {
+  const now = new Date();
+
+  document.getElementById("hours").textContent =
+    String(now.getHours()).padStart(2, "0");
+
+  document.getElementById("minutes").textContent =
+    String(now.getMinutes()).padStart(2, "0");
+
+  const date = now.toLocaleDateString("pl-PL", { weekday: "long" });
+const capitalizedDate = date.charAt(0).toUpperCase() + date.slice(1);
+  document.getElementById("weekday").textContent =
+    capitalizedDate;
+
+  document.getElementById("dateText").textContent =
+    now.toLocaleDateString("pl-PL", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    });
+}
+
+function renderCalendar() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  document.getElementById("monthLabel").textContent =
+    now.toLocaleDateString("pl-PL", {
+      month: "long",
+      year: "numeric"
+    });
+
+  const daysContainer = document.getElementById("calendarDays");
+  daysContainer.innerHTML = "";
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+
+  let startDay = firstDay.getDay();
+  startDay = startDay === 0 ? 7 : startDay;
+
+  for (let i = 1; i < startDay; i++) {
+    daysContainer.innerHTML += "<span></span>";
+  }
+
+  for (let day = 1; day <= lastDay.getDate(); day++) {
+    const isToday = day === now.getDate();
+    daysContainer.innerHTML += `<span class="${isToday ? 'today' : ''}">${day}</span>`;
+  }
+}
+
+updateClock();
+renderCalendar();
+loadWeather();
+
+setInterval(updateClock, 1000);
+setInterval(loadWeather, 1800000);
+</script>
