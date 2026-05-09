@@ -1,202 +1,293 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Widget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: transparent;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .widget {
+    background: linear-gradient(135deg, rgba(255, 252, 245, 0.45), rgba(245, 238, 228, 0.22));
+    backdrop-filter: blur(20px) saturate(120%);
+    -webkit-backdrop-filter: blur(20px) saturate(120%);
+    border: 1px solid rgba(255, 250, 240, 0.55);
+    border-radius: 18px;
+    padding: 1rem 1.75rem;
+    box-shadow:
+      0 4px 20px rgba(80, 65, 50, 0.06),
+      inset 0 1px 0 rgba(255, 250, 240, 0.7);
+    width: 100%;
+    max-width: 720px;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .greeting-block { flex: 0 1 auto; min-width: 160px; }
+
+  .greeting {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.1;
+    color: #3d3530;
+    letter-spacing: -0.01em;
+  }
+
+  .date {
+    font-size: 11px;
+    font-weight: 300;
+    color: #948a7e;
+    margin-top: 4px;
+    letter-spacing: 0.03em;
+  }
+
+  .quote {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: center;
+    font-style: italic;
+    font-size: 13px;
+    font-weight: 300;
+    color: #5d5650;
+    letter-spacing: 0.01em;
+    opacity: 0.85;
+  }
+
+  .time-block {
+    flex: 0 1 auto;
+    min-width: 110px;
+    text-align: right;
+  }
+
+  .time {
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1;
+    color: #3d3530;
+    letter-spacing: 0.04em;
+  }
+
+  .weather {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 300;
+    color: #948a7e;
+    margin-top: 4px;
+    letter-spacing: 0.03em;
+  }
+
+  .weather svg { display: block; flex-shrink: 0; }
+
+  @media (max-width: 600px) {
+    .widget { padding: 0.875rem 1.25rem; }
+    .greeting { font-size: 18px; }
+    .time { font-size: 20px; }
+    .row { gap: 0.75rem; }
+    .quote { display: none; }
+  }
+</style>
+</head>
+<body>
+
 <div class="widget">
-  <div class="date-block">
-    <div id="weekday" class="weekday"></div>
-    <div id="dateText" class="date-text"></div>
-  </div>
-
-  <div class="clock">
-    <div id="hours" class="time-text"></div>
-    <div class="colon">:</div>
-    <div id="minutes" class="time-text"></div>
-  </div>
-
-  <div class="weather">
-    <div class="weather-location">Lubliniec</div>
-    <div id="weatherIcon" class="weather-icon">☀️</div>
-    <div id="temp" class="temp">--°C</div>
-    <div id="weatherDesc" class="weather-desc">ładowanie pogody</div>
-  </div>
-
-  <div class="calendar">
-    <div id="monthLabel" class="month"></div>
-    <div class="weekdays">
-      <span>Pn</span><span>Wt</span><span>Śr</span><span>Cz</span><span>Pt</span><span>So</span><span>Nd</span>
+  <div class="row">
+    <div class="greeting-block">
+      <div class="greeting" id="greeting">—</div>
+      <div class="date" id="date">—</div>
     </div>
-    <div id="calendarDays" class="days"></div>
+    <div class="quote" id="quote">—</div>
+    <div class="time-block">
+      <div class="time" id="time">—</div>
+      <div class="weather" id="weather">—</div>
+    </div>
   </div>
 </div>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap');
-
-body {
-  margin: 0;
-  background: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.widget {
-  width: 100%;
-  max-width: 98vw;
-  display: grid;
-  grid-template-columns: 1.35fr 1.25fr 1fr 1.35fr;
-  gap: 24px;
-  align-items: center;
-  padding: 32px 38px;
-  border-radius: 38px;
-  background: linear-gradient(135deg, rgba(255,250,246,0.7), rgba(246,232,224,0.5));
-  backdrop-filter: blur(18px);
-  color: #7A6256;
-}
-
-.date-block, .weather, .calendar {
-  text-align: center;
-}
-
-.weekday {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 48px;
-}
-
-.date-text {
-  font-size: 14px;
-  color: #A78E82;
-}
-
-.clock {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.time-text {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 64px;
-}
-
-.colon {
-  font-size: 52px;
-}
-
-.weather-icon {
-  font-size: 42px;
-}
-
-.temp {
-  font-size: 40px;
-}
-
-.weekdays, .days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-}
-
-.days span.today {
-  background: #B49A8E;
-  color: white;
-  border-radius: 8px;
-}
-</style>
-
 <script>
-const apiKey = "d356336eace22d3d7aac5bf34a478ac7";
+const NAME = 'Ewa';
+const CITY = 'Lubliniec';
+const LATITUDE = 50.6678;
+const LONGITUDE = 18.6884;
 
-async function loadWeather() {
+const OPENWEATHER_API_KEY = 'b3a94ad80396b7ef6378aaac4d544464';
+
+const QUOTES = [
+  'Doceniaj to, co masz dziś.',
+  'Każdy dzień to dar.',
+  'Małe rzeczy tworzą wielkie życie.',
+  'Życie dzieje się tu i teraz.',
+  'Bądź wdzięczna za to, co jest.',
+  'Piękno jest w drobiazgach.',
+  'Chwila, w której jesteś, to wszystko, co masz.',
+  'Zauważaj to, co dobre.',
+  'Każdy dzień ma swój urok.',
+  'Życie to suma drobnych radości.',
+  'Dziś też jest piękny dzień.',
+  'Najlepsze chwile są zwyczajne.',
+  'Bądź obecna.',
+  'Świat ma w sobie magię, jeśli się patrzy.',
+  'Wszystko ma swój czas.',
+  'Cieszą szczegóły.',
+  'Wystarczy zauważyć.',
+  'Życie nie czeka — żyj.',
+  'Najpiękniejsze rzeczy są proste.',
+  'Bądź tu, gdzie jesteś.',
+];
+
+const DNI = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
+const MIESIACE = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
+
+const ICON_SUN = '<svg width="16" height="16" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="18" cy="18" r="7" fill="#F4C430"/><g stroke="#F4C430" stroke-width="2" stroke-linecap="round"><line x1="18" y1="4" x2="18" y2="8"/><line x1="18" y1="28" x2="18" y2="32"/><line x1="4" y1="18" x2="8" y2="18"/><line x1="28" y1="18" x2="32" y2="18"/><line x1="8" y1="8" x2="11" y2="11"/><line x1="25" y1="25" x2="28" y2="28"/><line x1="28" y1="8" x2="25" y2="11"/><line x1="11" y1="25" x2="8" y2="28"/></g></svg>';
+
+const ICON_MOON = '<svg width="16" height="16" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 28 18 A 11 11 0 1 1 17 7 A 8 8 0 0 0 28 18 Z" fill="#F4C430"/><circle cx="6" cy="10" r="1" fill="#F4C430" opacity="0.75"/></svg>';
+
+const ICON_SUN_CLOUD = '<svg width="20" height="16" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="13" cy="13" r="6" fill="#F4C430"/><g stroke="#F4C430" stroke-width="1.5" stroke-linecap="round"><line x1="13" y1="2" x2="13" y2="5"/><line x1="2" y1="13" x2="5" y2="13"/><line x1="5" y1="5" x2="7" y2="7"/><line x1="21" y1="5" x2="19" y2="7"/></g><path d="M 16 22 Q 16 16 22 16 Q 28 16 29 21 Q 35 21 35 26 Q 35 30 30 30 L 16 30 Q 11 30 11 26 Q 11 22 16 22 Z" fill="#B8B0A4"/></svg>';
+
+const ICON_MOON_CLOUD = '<svg width="20" height="16" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 21 15 A 8 8 0 1 1 13 7 A 6 6 0 0 0 21 15 Z" fill="#F4C430"/><path d="M 16 22 Q 16 16 22 16 Q 28 16 29 21 Q 35 21 35 26 Q 35 30 30 30 L 16 30 Q 11 30 11 26 Q 11 22 16 22 Z" fill="#B8B0A4"/></svg>';
+
+const ICON_CLOUD = '<svg width="18" height="16" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 24 Q 11 17 18 17 Q 25 16 27 22 Q 33 22 33 27 Q 33 31 28 31 L 11 31 Q 5 31 5 26 Q 5 22 11 24 Z" fill="#A8A095"/><path d="M 17 18 Q 17 13 22 13 Q 27 13 28 17" fill="none" stroke="#C4BCB0" stroke-width="2"/></svg>';
+
+const ICON_RAIN = '<svg width="18" height="18" viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 18 Q 11 11 18 11 Q 25 10 27 16 Q 33 16 33 21 Q 33 25 28 25 L 11 25 Q 5 25 5 20 Q 5 16 11 18 Z" fill="#A8A095"/><g stroke="#5B9BD5" stroke-width="2" stroke-linecap="round" fill="none"><line x1="13" y1="29" x2="11" y2="34"/><line x1="20" y1="29" x2="18" y2="34"/><line x1="27" y1="29" x2="25" y2="34"/></g></svg>';
+
+const ICON_STORM = '<svg width="18" height="18" viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 18 Q 11 11 18 11 Q 25 10 27 16 Q 33 16 33 21 Q 33 25 28 25 L 11 25 Q 5 25 5 20 Q 5 16 11 18 Z" fill="#7B7368"/><path d="M 19 26 L 15 32 L 19 32 L 16 36 L 23 29 L 19 29 L 22 26 Z" fill="#F4C430" stroke="#D4A420" stroke-width="0.5"/></svg>';
+
+const ICON_SNOW = '<svg width="18" height="18" viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 18 Q 11 11 18 11 Q 25 10 27 16 Q 33 16 33 21 Q 33 25 28 25 L 11 25 Q 5 25 5 20 Q 5 16 11 18 Z" fill="#C4C0B8"/><g fill="#FFFFFF" stroke="#A8A095" stroke-width="0.5"><circle cx="13" cy="31" r="1.8"/><circle cx="20" cy="34" r="1.8"/><circle cx="27" cy="31" r="1.8"/></g></svg>';
+
+const ICON_FOG = '<svg width="18" height="14" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#A8A095" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="8" x2="34" y2="8"/><line x1="10" y1="16" x2="32" y2="16"/><line x1="6" y1="24" x2="30" y2="24"/></g></svg>';
+
+const WEATHER_ICON_MAP = {
+  '01d': ICON_SUN,
+  '01n': ICON_MOON,
+  '02d': ICON_SUN_CLOUD,
+  '02n': ICON_MOON_CLOUD,
+  '03d': ICON_SUN_CLOUD,
+  '03n': ICON_MOON_CLOUD,
+  '04d': ICON_CLOUD,
+  '04n': ICON_CLOUD,
+  '09d': ICON_RAIN,
+  '09n': ICON_RAIN,
+  '10d': ICON_RAIN,
+  '10n': ICON_RAIN,
+  '11d': ICON_STORM,
+  '11n': ICON_STORM,
+  '13d': ICON_SNOW,
+  '13n': ICON_SNOW,
+  '50d': ICON_FOG,
+  '50n': ICON_FOG,
+};
+
+function pad2(n) { return n.toString().padStart(2, '0'); }
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+  });
+}
+
+function updateGreeting() {
+  const h = new Date().getHours();
+  let g;
+  if (h < 5) g = 'Dobranoc';
+  else if (h < 12) g = 'Dzień dobry';
+  else if (h < 18) g = 'Cześć';
+  else if (h < 22) g = 'Dobry wieczór';
+  else g = 'Dobranoc';
+  document.getElementById('greeting').textContent = NAME ? g + ', ' + NAME : g;
+}
+
+function updateDate() {
+  const now = new Date();
+  document.getElementById('date').textContent =
+    DNI[now.getDay()] + ', ' + now.getDate() + ' ' + MIESIACE[now.getMonth()] + ' ' + now.getFullYear();
+}
+
+function updateTime() {
+  const now = new Date();
+  document.getElementById('time').textContent = pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+}
+
+function updateQuote() {
+  const now = new Date();
+  const start = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+  document.getElementById('quote').textContent = QUOTES[dayOfYear % QUOTES.length];
+}
+
+async function updateWeather() {
+  const weatherEl = document.getElementById('weather');
   try {
-    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Lubliniec,PL&units=metric&lang=pl&appid=${apiKey}`);
-    const data = await res.json();
-
-    if (data.cod !== 200) {
-      document.getElementById("weatherDesc").textContent = "błąd API";
+    if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY.indexOf('WKLEJ') === 0) {
+      weatherEl.innerHTML = '<span>' + escapeHtml(CITY) + '</span>';
       return;
     }
-
-    document.getElementById("temp").textContent =
-      Math.round(data.main.temp) + "°C";
-
-    document.getElementById("weatherDesc").textContent =
-      data.weather[0].description;
-
-    document.getElementById("weatherIcon").textContent =
-      getWeatherEmoji(data.weather[0].description);
-
-  } catch {
-    document.getElementById("weatherDesc").textContent = "błąd połączenia";
+    const url = 'https://api.openweathermap.org/data/2.5/weather' +
+                '?lat=' + LATITUDE +
+                '&lon=' + LONGITUDE +
+                '&appid=' + encodeURIComponent(OPENWEATHER_API_KEY) +
+                '&units=metric&lang=pl';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('weather fetch failed');
+    const data = await res.json();
+    const temp = Math.round(data.main.temp);
+    const iconCode = data.weather[0].icon;
+    const iconSvg = WEATHER_ICON_MAP[iconCode] || ICON_CLOUD;
+    weatherEl.innerHTML = iconSvg + '<span>' + temp + '°C · ' + escapeHtml(CITY) + '</span>';
+  } catch (e) {
+    weatherEl.innerHTML = '<span>' + escapeHtml(CITY) + '</span>';
   }
 }
 
-function getWeatherEmoji(description) {
-  const desc = description.toLowerCase();
-
-  if (desc.includes("bezchmurnie")) return "☀️";
-  if (desc.includes("słonecznie")) return "☀️";
-  if (desc.includes("zachmurzenie") || desc.includes("chmury")) return "☁️";
-  if (desc.includes("deszcz")) return "🌧️";
-  if (desc.includes("burza")) return "⛈️";
-  if (desc.includes("śnieg")) return "❄️";
-  if (desc.includes("mgła")) return "🌫️";
-
-  return "☀️";
+function refreshAll() {
+  updateGreeting();
+  updateDate();
+  updateTime();
+  updateQuote();
 }
 
-function updateClock() {
+refreshAll();
+updateWeather();
+
+setInterval(function() {
+  updateTime();
+  updateGreeting();
+}, 60000);
+
+setInterval(updateWeather, 30 * 60 * 1000);
+
+function scheduleMidnight() {
   const now = new Date();
-
-  document.getElementById("hours").textContent =
-    String(now.getHours()).padStart(2, "0");
-
-  document.getElementById("minutes").textContent =
-    String(now.getMinutes()).padStart(2, "0");
-
-  const date = now.toLocaleDateString("pl-PL", { weekday: "long" });
-const capitalizedDate = date.charAt(0).toUpperCase() + date.slice(1);
-  document.getElementById("weekday").textContent =
-    capitalizedDate;
-
-  document.getElementById("dateText").textContent =
-    now.toLocaleDateString("pl-PL", {
-      day: "numeric",
-      month: "long",
-      year: "numeric"
-    });
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const ms = tomorrow - now;
+  setTimeout(function() {
+    updateDate();
+    updateQuote();
+    scheduleMidnight();
+  }, ms);
 }
-
-function renderCalendar() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
-
-  document.getElementById("monthLabel").textContent =
-    now.toLocaleDateString("pl-PL", {
-      month: "long",
-      year: "numeric"
-    });
-
-  const daysContainer = document.getElementById("calendarDays");
-  daysContainer.innerHTML = "";
-
-  const firstDay = new Date(year, month, 1);
-  const lastDay = new Date(year, month + 1, 0);
-
-  let startDay = firstDay.getDay();
-  startDay = startDay === 0 ? 7 : startDay;
-
-  for (let i = 1; i < startDay; i++) {
-    daysContainer.innerHTML += "<span></span>";
-  }
-
-  for (let day = 1; day <= lastDay.getDate(); day++) {
-    const isToday = day === now.getDate();
-    daysContainer.innerHTML += `<span class="${isToday ? 'today' : ''}">${day}</span>`;
-  }
-}
-
-updateClock();
-renderCalendar();
-loadWeather();
-
-setInterval(updateClock, 1000);
-setInterval(loadWeather, 1800000);
+scheduleMidnight();
 </script>
+
+</body>
+</html>
