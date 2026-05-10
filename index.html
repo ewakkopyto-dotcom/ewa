@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   .widget {
@@ -25,87 +25,86 @@
     backdrop-filter: blur(20px) saturate(120%);
     -webkit-backdrop-filter: blur(20px) saturate(120%);
     border: 1px solid rgba(255, 250, 240, 0.55);
-    border-radius: 18px;
-    padding: 1rem 1.75rem;
+    border-radius: 22px;
+    padding: 1.5rem 2.5rem;
     box-shadow:
       0 4px 20px rgba(80, 65, 50, 0.06),
       inset 0 1px 0 rgba(255, 250, 240, 0.7);
     width: 100%;
-    max-width: 720px;
+    max-width: 1100px;
   }
 
   .row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 2rem;
     flex-wrap: wrap;
   }
 
-  .greeting-block { flex: 0 1 auto; min-width: 160px; }
+  .greeting-block { flex: 0 1 auto; min-width: 200px; }
 
   .greeting {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.2;
     color: #3d3530;
     letter-spacing: -0.01em;
   }
 
   .date {
-    font-size: 11px;
-    font-weight: 300;
+    font-size: 13px;
     color: #948a7e;
     margin-top: 4px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.01em;
   }
 
-  .quote {
-    flex: 1 1 auto;
-    min-width: 0;
+  .quote-block {
+    flex: 1 1 220px;
     text-align: center;
     font-style: italic;
-    font-size: 13px;
-    font-weight: 300;
+    font-size: 15px;
     color: #5d5650;
-    letter-spacing: 0.01em;
-    opacity: 0.85;
+    line-height: 1.4;
+    padding: 0 1rem;
   }
 
-  .time-block {
+  .info-block {
     flex: 0 1 auto;
-    min-width: 110px;
     text-align: right;
+    min-width: 130px;
   }
 
   .time {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 300;
-    line-height: 1;
+    line-height: 1.05;
     color: #3d3530;
-    letter-spacing: 0.04em;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'tnum';
   }
 
   .weather {
+    font-size: 13px;
+    color: #948a7e;
+    margin-top: 4px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 5px;
-    font-size: 11px;
-    font-weight: 300;
-    color: #948a7e;
-    margin-top: 4px;
-    letter-spacing: 0.03em;
+    gap: 6px;
+    line-height: 1;
   }
 
   .weather svg { display: block; flex-shrink: 0; }
 
   @media (max-width: 600px) {
-    .widget { padding: 0.875rem 1.25rem; }
-    .greeting { font-size: 18px; }
-    .time { font-size: 20px; }
-    .row { gap: 0.75rem; }
-    .quote { display: none; }
+    .widget { padding: 1.25rem 1.5rem; }
+    .row { gap: 1.25rem; }
+    .greeting { font-size: 22px; }
+    .time { font-size: 24px; }
+    .quote-block { flex-basis: 100%; order: 3; padding: 0; }
+    .info-block { text-align: left; }
+    .weather { justify-content: flex-start; }
   }
 </style>
 </head>
@@ -114,13 +113,15 @@
 <div class="widget">
   <div class="row">
     <div class="greeting-block">
-      <div class="greeting" id="greeting">—</div>
+      <div class="greeting" id="greeting">Cześć</div>
       <div class="date" id="date">—</div>
     </div>
-    <div class="quote" id="quote">—</div>
-    <div class="time-block">
-      <div class="time" id="time">—</div>
-      <div class="weather" id="weather">—</div>
+
+    <div class="quote-block" id="quote">—</div>
+
+    <div class="info-block">
+      <div class="time" id="time">--:--</div>
+      <div class="weather" id="weather"><span>—</span></div>
     </div>
   </div>
 </div>
@@ -130,23 +131,22 @@ const NAME = 'Ewa';
 const CITY = 'Lubliniec';
 const LATITUDE = 50.6678;
 const LONGITUDE = 18.6884;
-
 const OPENWEATHER_API_KEY = 'b3a94ad80396b7ef6378aaac4d544464';
 
 const QUOTES = [
   'Doceniaj to, co masz dziś.',
-  'Każdy dzień to dar.',
-  'Małe rzeczy tworzą wielkie życie.',
-  'Życie dzieje się tu i teraz.',
-  'Bądź wdzięczna za to, co jest.',
-  'Piękno jest w drobiazgach.',
-  'Chwila, w której jesteś, to wszystko, co masz.',
-  'Zauważaj to, co dobre.',
-  'Każdy dzień ma swój urok.',
   'Życie to suma drobnych radości.',
+  'Czasem mniej znaczy więcej.',
+  'Każdy oddech to nowy początek.',
+  'Mała chwila spokoju to dużo.',
+  'Patrz na niebo. Czasem warto.',
+  'Drobne rzeczy też się liczą.',
+  'Powolniej, ale do celu.',
   'Dziś też jest piękny dzień.',
-  'Najlepsze chwile są zwyczajne.',
-  'Bądź obecna.',
+  'Ciesz się chwilą.',
+  'Jeden krok dziennie wystarczy.',
+  'To, co teraz, jest dobre.',
+  'Spokoju nie kupisz, znajdziesz.',
   'Świat ma w sobie magię, jeśli się patrzy.',
   'Wszystko ma swój czas.',
   'Cieszą szczegóły.',
@@ -158,6 +158,16 @@ const QUOTES = [
 
 const DNI = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
 const MIESIACE = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
+
+const ZYCZENIA = [
+  'miłej niedzieli',
+  'udanego poniedziałku',
+  'pogodnego wtorku',
+  'spokojnej środy',
+  'owocnego czwartku',
+  'lekkiego piątku',
+  'miłej soboty'
+];
 
 const ICON_SUN = '<svg width="16" height="16" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="18" cy="18" r="7" fill="#F4C430"/><g stroke="#F4C430" stroke-width="2" stroke-linecap="round"><line x1="18" y1="4" x2="18" y2="8"/><line x1="18" y1="28" x2="18" y2="32"/><line x1="4" y1="18" x2="8" y2="18"/><line x1="28" y1="18" x2="32" y2="18"/><line x1="8" y1="8" x2="11" y2="11"/><line x1="25" y1="25" x2="28" y2="28"/><line x1="28" y1="8" x2="25" y2="11"/><line x1="11" y1="25" x2="8" y2="28"/></g></svg>';
 
@@ -207,14 +217,18 @@ function escapeHtml(s) {
 }
 
 function updateGreeting() {
-  const h = new Date().getHours();
+  const now = new Date();
+  const h = now.getHours();
   let g;
   if (h < 5) g = 'Dobranoc';
   else if (h < 12) g = 'Dzień dobry';
   else if (h < 18) g = 'Cześć';
   else if (h < 22) g = 'Dobry wieczór';
   else g = 'Dobranoc';
-  document.getElementById('greeting').textContent = NAME ? g + ', ' + NAME : g;
+
+  const zyczenie = ZYCZENIA[now.getDay()];
+  const greetingBase = NAME ? g + ', ' + NAME : g;
+  document.getElementById('greeting').textContent = greetingBase + ' — ' + zyczenie;
 }
 
 function updateDate() {
@@ -248,47 +262,46 @@ async function updateWeather() {
                 '&appid=' + encodeURIComponent(OPENWEATHER_API_KEY) +
                 '&units=metric&lang=pl';
     const res = await fetch(url);
-    if (!res.ok) throw new Error('weather fetch failed');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     const temp = Math.round(data.main.temp);
     const iconCode = data.weather[0].icon;
-    const iconSvg = WEATHER_ICON_MAP[iconCode] || ICON_CLOUD;
-    weatherEl.innerHTML = iconSvg + '<span>' + temp + '°C · ' + escapeHtml(CITY) + '</span>';
+    const icon = WEATHER_ICON_MAP[iconCode] || ICON_CLOUD;
+    weatherEl.innerHTML = icon + '<span>' + temp + '°C · ' + escapeHtml(CITY) + '</span>';
   } catch (e) {
     weatherEl.innerHTML = '<span>' + escapeHtml(CITY) + '</span>';
   }
 }
 
-function refreshAll() {
+function updateAll() {
   updateGreeting();
   updateDate();
   updateTime();
   updateQuote();
 }
 
-refreshAll();
+updateAll();
 updateWeather();
 
-setInterval(function() {
-  updateTime();
-  updateGreeting();
-}, 60000);
-
+setInterval(updateTime, 60 * 1000);
+setInterval(updateGreeting, 60 * 1000);
 setInterval(updateWeather, 30 * 60 * 1000);
 
-function scheduleMidnight() {
+(function scheduleQuoteRefresh() {
   const now = new Date();
-  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 5);
   const ms = tomorrow - now;
   setTimeout(function() {
-    updateDate();
     updateQuote();
-    scheduleMidnight();
+    updateDate();
+    updateGreeting();
+    setInterval(function() {
+      updateQuote();
+      updateDate();
+      updateGreeting();
+    }, 24 * 60 * 60 * 1000);
   }, ms);
-}
-scheduleMidnight();
+})();
 </script>
-
 </body>
 </html>
-
