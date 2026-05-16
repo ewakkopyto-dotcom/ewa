@@ -14,118 +14,245 @@
     background: transparent;
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow: hidden;
+    width: 100%;
+    height: 100%;
   }
 
   body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
-    min-height: auto;
+    min-height: 100vh;
+    padding: 8px;
   }
 
   .widget {
-    background: linear-gradient(135deg, rgba(255, 252, 245, 0.45), rgba(245, 238, 228, 0.22));
-    backdrop-filter: blur(20px) saturate(120%);
-    -webkit-backdrop-filter: blur(20px) saturate(120%);
-    border: 1px solid rgba(255, 250, 240, 0.55);
-    border-radius: 22px;
-    padding: 1.25rem 2rem;
-    box-shadow:
-      0 4px 20px rgba(80, 65, 50, 0.06),
-      inset 0 1px 0 rgba(255, 250, 240, 0.7);
-    width: 100%;
+    width: 400px;
+    height: 400px;
     max-width: 100%;
+    max-height: 100%;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #FBF6EC 0%, #F2E4C0 100%);
+    box-shadow: 0 4px 24px rgba(80, 65, 50, 0.06);
   }
 
-  .row {
+  .bg-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .bg-blob-1 {
+    top: -50px;
+    right: -30px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, #FFCE5E 0%, #F5A82C 30%, transparent 70%);
+    opacity: 0.42;
+  }
+  .bg-blob-2 {
+    bottom: -70px;
+    left: -50px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, #E8D4B0 0%, transparent 65%);
+    opacity: 0.5;
+  }
+
+  .glass-card {
+    position: absolute;
+    inset: 14px;
+    border-radius: 18px;
+    background: rgba(255, 253, 247, 0.42);
+    backdrop-filter: blur(24px) saturate(120%);
+    -webkit-backdrop-filter: blur(24px) saturate(120%);
+    border: 0.5px solid rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    padding: 20px 22px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
-  .greeting-block { flex: 0 1 auto; min-width: 200px; }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
   .greeting {
-    font-size: 24px;
-    font-weight: 400;
+    font-size: 20px;
+    font-weight: 500;
+    color: #5A4A35;
     line-height: 1.2;
-    color: #6b5d52;
-    letter-spacing: -0.01em;
   }
-
+  .wish {
+    font-size: 14px;
+    color: #8A7A63;
+    margin-top: 3px;
+  }
   .date {
-    font-size: 13px;
-    color: #948a7e;
-    margin-top: 4px;
-    letter-spacing: 0.01em;
+    font-size: 12px;
+    color: #A09078;
+    margin-top: 6px;
   }
 
-  .quote-block {
-    flex: 1 1 220px;
-    text-align: center;
-    font-style: italic;
-    font-size: 15px;
-    color: #5d5650;
-    line-height: 1.4;
-    padding: 0 1rem;
+  .illustration {
+    margin-top: -8px;
+    margin-right: -6px;
+    width: 130px;
+    height: 100px;
+    flex-shrink: 0;
   }
 
-  .info-block {
-    flex: 0 1 auto;
-    text-align: right;
-    min-width: 130px;
+  .main-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 6px;
   }
 
   .time {
-    font-size: 26px;
+    font-size: 82px;
     font-weight: 300;
-    line-height: 1.05;
-    color: #6b5d52;
-    letter-spacing: -0.02em;
+    color: #5A4A35;
+    line-height: 1;
+    letter-spacing: -0.04em;
     font-feature-settings: 'tnum';
   }
 
-  .weather {
-    font-size: 13px;
-    color: #948a7e;
-    margin-top: 4px;
+  .temp-block {
+    text-align: right;
+    padding-bottom: 6px;
+  }
+  .temp-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
-    gap: 6px;
+  }
+  .temp {
+    font-size: 36px;
+    font-weight: 300;
+    color: #5A4A35;
     line-height: 1;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'tnum';
+  }
+  .temp-unit {
+    font-size: 14px;
+    color: #8A7A63;
+    margin-top: 4px;
+    margin-left: 2px;
+  }
+  .city {
+    font-size: 11px;
+    color: #8A7A63;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
   }
 
-  .weather svg { display: block; flex-shrink: 0; }
+  .forecast {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    margin-top: 14px;
+    padding: 12px 0;
+    border-top: 0.5px solid rgba(90, 74, 53, 0.14);
+    border-bottom: 0.5px solid rgba(90, 74, 53, 0.14);
+  }
+  .forecast-day { text-align: center; }
+  .day-name {
+    font-size: 10px;
+    color: #8A7A63;
+    letter-spacing: 0.06em;
+  }
+  .day-icon {
+    margin: 3px auto;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .day-temp {
+    font-size: 11px;
+    color: #5A4A35;
+    font-feature-settings: 'tnum';
+    margin-top: 2px;
+  }
 
-  @media (max-width: 600px) {
-    .widget { padding: 1rem 1.25rem; }
-    .row { gap: 1rem; }
-    .greeting { font-size: 20px; }
-    .time { font-size: 22px; }
-    .quote-block { flex-basis: 100%; order: 3; padding: 0; }
-    .info-block { text-align: left; }
-    .weather { justify-content: flex-start; }
+  .quote-block {
+    margin-top: auto;
+    padding-top: 12px;
+  }
+  .quote-text {
+    font-size: 14px;
+    color: #6E5C44;
+    line-height: 1.45;
+  }
+  .quote-author {
+    font-size: 11px;
+    color: #A09078;
+    margin-top: 4px;
+    letter-spacing: 0.01em;
   }
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position: absolute;" aria-hidden="true">
+  <defs>
+    <radialGradient id="sunCore" cx="40%" cy="40%">
+      <stop offset="0%" stop-color="#FFF8DC"/>
+      <stop offset="40%" stop-color="#FFD83E"/>
+      <stop offset="80%" stop-color="#F2A322"/>
+      <stop offset="100%" stop-color="#D8841A"/>
+    </radialGradient>
+    <radialGradient id="sunHalo" cx="50%" cy="50%">
+      <stop offset="0%" stop-color="#FFCE5E" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#FFB838" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#FFB838" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cloudPuff" cx="35%" cy="25%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="70%" stop-color="#F0F2F6"/>
+      <stop offset="100%" stop-color="#D5DBE4"/>
+    </radialGradient>
+    <radialGradient id="moonCore" cx="40%" cy="40%">
+      <stop offset="0%" stop-color="#FFF8E0"/>
+      <stop offset="100%" stop-color="#E8D080"/>
+    </radialGradient>
+  </defs>
+</svg>
+
 <div class="widget">
-  <div class="row">
-    <div class="greeting-block">
-      <div class="greeting" id="greeting">Cześć</div>
-      <div class="date" id="date">—</div>
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+
+  <div class="glass-card">
+    <div class="header">
+      <div class="greeting-block">
+        <div class="greeting" id="greeting">Dzień dobry, Ewa</div>
+        <div class="wish" id="wish">miłej soboty</div>
+        <div class="date" id="date">—</div>
+      </div>
+      <div class="illustration" id="illustration"></div>
     </div>
 
-    <div class="quote-block" id="quote">—</div>
-
-    <div class="info-block">
+    <div class="main-row">
       <div class="time" id="time">--:--</div>
-      <div class="weather" id="weather"><span>—</span></div>
+      <div class="temp-block">
+        <div class="temp-row">
+          <span class="temp" id="temp">—</span><span class="temp-unit">°C</span>
+        </div>
+        <div class="city" id="city">LUBLINIEC</div>
+      </div>
+    </div>
+
+    <div class="forecast" id="forecast"></div>
+
+    <div class="quote-block">
+      <div class="quote-text" id="quote-text">—</div>
+      <div class="quote-author" id="quote-author"></div>
     </div>
   </div>
 </div>
@@ -137,32 +264,36 @@ const LATITUDE = 50.6678;
 const LONGITUDE = 18.6884;
 const OPENWEATHER_API_KEY = 'b3a94ad80396b7ef6378aaac4d544464';
 
+// Co ile godzin zmienia się cytat (3 = 8 razy dziennie, 4 = 6 razy, 6 = 4 razy)
+const QUOTE_ROTATION_HOURS = 3;
+
 const QUOTES = [
-  'Doceniaj to, co masz dziś.',
-  'Życie to suma drobnych radości.',
-  'Czasem mniej znaczy więcej.',
-  'Każdy oddech to nowy początek.',
-  'Mała chwila spokoju to dużo.',
-  'Patrz na niebo. Czasem warto.',
-  'Drobne rzeczy też się liczą.',
-  'Powolniej, ale do celu.',
-  'Dziś też jest piękny dzień.',
-  'Ciesz się chwilą.',
-  'Jeden krok dziennie wystarczy.',
-  'To, co teraz, jest dobre.',
-  'Spokoju nie kupisz, znajdziesz.',
-  'Świat ma w sobie magię, jeśli się patrzy.',
-  'Wszystko ma swój czas.',
-  'Cieszą szczegóły.',
-  'Wystarczy zauważyć.',
-  'Życie nie czeka — żyj.',
-  'Najpiękniejsze rzeczy są proste.',
-  'Bądź tu, gdzie jesteś.',
+  { text: 'Każdy dzień jest cudem, gdy się go zobaczy.', author: '' },
+  { text: 'Marzenia są początkiem rzeczywistości.', author: 'Saint-Exupéry' },
+  { text: 'Cudów świata jest naprawdę dużo.', author: 'Szymborska' },
+  { text: 'Świat jest pełen małych cudów. Wystarczy patrzeć.', author: '' },
+  { text: 'Życie to taniec w deszczu, nie czekanie na koniec burzy.', author: 'Vivian Greene' },
+  { text: 'Bądź zmianą, którą chcesz widzieć.', author: 'Gandhi' },
+  { text: 'Dobroć nigdy nie idzie na marne.', author: 'Ezop' },
+  { text: 'Świat zmienia się od jednego dobrego gestu.', author: '' },
+  { text: 'Życzliwość kosztuje mało, a znaczy wiele.', author: '' },
+  { text: 'Dobro zawsze wraca.', author: '' },
+  { text: 'Bądź światłem dla innych.', author: '' },
+  { text: 'Łagodność też jest siłą.', author: '' },
+  { text: 'Pokój zaczyna się od uśmiechu.', author: 'Matka Teresa' },
+  { text: 'Mały gest dobroci zmienia czyjś cały dzień.', author: '' },
+  { text: 'Świat potrzebuje twojej dobroci.', author: '' },
+  { text: 'Nadzieja jest jak pierwsza gwiazda na niebie.', author: '' },
+  { text: 'Marzenia się spełniają — tym, którzy nie przestają wierzyć.', author: '' },
+  { text: 'Każdy dzień to nowa szansa.', author: '' },
+  { text: 'Nie odkładaj radości na jutro.', author: '' },
+  { text: 'Świat jest piękny, gdy się go pokochać.', author: '' },
+  { text: 'Wierz, że dobre jeszcze się zdarzy.', author: '' },
+  { text: 'Niech twoje serce zawsze pamięta o słońcu.', author: '' }
 ];
 
-const DNI = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
+const DNI_SKROT = ['ND','PN','WT','ŚR','CZW','PT','SOB'];
 const MIESIACE = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
-
 const ZYCZENIA = [
   'miłej niedzieli',
   'udanego poniedziałku',
@@ -173,51 +304,192 @@ const ZYCZENIA = [
   'miłej soboty'
 ];
 
-const ICON_SUN = '<svg width="16" height="16" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="18" cy="18" r="7" fill="#F4C430"/><g stroke="#F4C430" stroke-width="2" stroke-linecap="round"><line x1="18" y1="4" x2="18" y2="8"/><line x1="18" y1="28" x2="18" y2="32"/><line x1="4" y1="18" x2="8" y2="18"/><line x1="28" y1="18" x2="32" y2="18"/><line x1="8" y1="8" x2="11" y2="11"/><line x1="25" y1="25" x2="28" y2="28"/><line x1="28" y1="8" x2="25" y2="11"/><line x1="11" y1="25" x2="8" y2="28"/></g></svg>';
+const LARGE_ICONS = {
+  sunny: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="65" cy="50" r="48" fill="url(#sunHalo)"/>
+      <g stroke="#F2A322" stroke-width="2.2" stroke-linecap="round" opacity="0.85">
+        <line x1="65" y1="20" x2="65" y2="10"/>
+        <line x1="86" y1="29" x2="93" y2="22"/>
+        <line x1="95" y1="50" x2="105" y2="50"/>
+        <line x1="86" y1="71" x2="93" y2="78"/>
+        <line x1="65" y1="80" x2="65" y2="90"/>
+        <line x1="44" y1="71" x2="37" y2="78"/>
+        <line x1="35" y1="50" x2="25" y2="50"/>
+        <line x1="44" y1="29" x2="37" y2="22"/>
+      </g>
+      <circle cx="65" cy="50" r="22" fill="url(#sunCore)"/>
+      <circle cx="59" cy="44" r="6" fill="#FFF8DC" opacity="0.7"/>
+    </svg>`,
+  sun_cloud: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="48" cy="40" r="44" fill="url(#sunHalo)"/>
+      <g stroke="#F2A322" stroke-width="2" stroke-linecap="round" opacity="0.85">
+        <line x1="48" y1="16" x2="48" y2="8"/>
+        <line x1="65" y1="23" x2="71" y2="17"/>
+        <line x1="72" y1="40" x2="80" y2="40"/>
+        <line x1="65" y1="57" x2="71" y2="63"/>
+        <line x1="48" y1="64" x2="48" y2="72"/>
+        <line x1="31" y1="57" x2="25" y2="63"/>
+        <line x1="24" y1="40" x2="16" y2="40"/>
+        <line x1="31" y1="23" x2="25" y2="17"/>
+      </g>
+      <circle cx="48" cy="40" r="20" fill="url(#sunCore)"/>
+      <circle cx="43" cy="35" r="5" fill="#FFF8DC" opacity="0.7"/>
+      <circle cx="70" cy="68" r="16" fill="url(#cloudPuff)"/>
+      <circle cx="88" cy="62" r="20" fill="url(#cloudPuff)"/>
+      <circle cx="105" cy="68" r="17" fill="url(#cloudPuff)"/>
+      <circle cx="115" cy="76" r="13" fill="#EBEEF3"/>
+      <ellipse cx="92" cy="82" rx="32" ry="9" fill="#FFFFFF"/>
+    </svg>`,
+  cloudy: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="48" cy="48" r="22" fill="url(#cloudPuff)"/>
+      <circle cx="72" cy="40" r="28" fill="url(#cloudPuff)"/>
+      <circle cx="96" cy="50" r="24" fill="url(#cloudPuff)"/>
+      <circle cx="108" cy="60" r="16" fill="#E1E5EC"/>
+      <ellipse cx="78" cy="70" rx="44" ry="11" fill="#FFFFFF"/>
+    </svg>`,
+  rainy: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="36" r="20" fill="url(#cloudPuff)"/>
+      <circle cx="72" cy="30" r="26" fill="url(#cloudPuff)"/>
+      <circle cx="94" cy="38" r="22" fill="url(#cloudPuff)"/>
+      <ellipse cx="74" cy="56" rx="42" ry="10" fill="#D5DBE4"/>
+      <g stroke="#6AA8D0" stroke-width="2.5" stroke-linecap="round">
+        <line x1="48" y1="70" x2="44" y2="86"/>
+        <line x1="62" y1="72" x2="58" y2="88"/>
+        <line x1="76" y1="70" x2="72" y2="86"/>
+        <line x1="90" y1="72" x2="86" y2="88"/>
+        <line x1="104" y1="70" x2="100" y2="86"/>
+      </g>
+    </svg>`,
+  storm: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="36" r="20" fill="#8E97A6"/>
+      <circle cx="72" cy="30" r="26" fill="#9CA5B3"/>
+      <circle cx="94" cy="38" r="22" fill="#8E97A6"/>
+      <ellipse cx="74" cy="56" rx="42" ry="10" fill="#7B8694"/>
+      <path d="M 72 60 L 60 80 L 70 80 L 64 95 L 84 72 L 74 72 L 80 60 Z" fill="#FFD83E" stroke="#D8841A" stroke-width="0.8"/>
+    </svg>`,
+  snowy: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="36" r="20" fill="url(#cloudPuff)"/>
+      <circle cx="72" cy="30" r="26" fill="url(#cloudPuff)"/>
+      <circle cx="94" cy="38" r="22" fill="url(#cloudPuff)"/>
+      <ellipse cx="74" cy="56" rx="42" ry="10" fill="#E8ECF2"/>
+      <g fill="#FFFFFF" stroke="#B8C0CB" stroke-width="0.6">
+        <circle cx="48" cy="78" r="3.5"/>
+        <circle cx="64" cy="84" r="3.5"/>
+        <circle cx="80" cy="78" r="3.5"/>
+        <circle cx="96" cy="84" r="3.5"/>
+      </g>
+    </svg>`,
+  foggy: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#B8B0A4" stroke-width="4" stroke-linecap="round" opacity="0.8">
+        <line x1="20" y1="30" x2="110" y2="30"/>
+        <line x1="32" y1="48" x2="100" y2="48"/>
+        <line x1="22" y1="66" x2="108" y2="66"/>
+        <line x1="36" y1="82" x2="96" y2="82"/>
+      </g>
+    </svg>`,
+  moon: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="65" cy="50" r="38" fill="url(#sunHalo)" opacity="0.5"/>
+      <path d="M 88 50 A 24 24 0 1 1 64 26 A 17 17 0 0 0 88 50 Z" fill="url(#moonCore)"/>
+      <circle cx="40" cy="30" r="1.5" fill="#FFF8E0" opacity="0.7"/>
+      <circle cx="100" cy="70" r="1.2" fill="#FFF8E0" opacity="0.6"/>
+      <circle cx="35" cy="70" r="1" fill="#FFF8E0" opacity="0.5"/>
+    </svg>`,
+  moon_cloud: `
+    <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+      <path d="M 65 50 A 22 22 0 1 1 43 28 A 16 16 0 0 0 65 50 Z" fill="url(#moonCore)"/>
+      <circle cx="70" cy="68" r="16" fill="url(#cloudPuff)"/>
+      <circle cx="88" cy="62" r="20" fill="url(#cloudPuff)"/>
+      <circle cx="105" cy="68" r="17" fill="url(#cloudPuff)"/>
+      <circle cx="115" cy="76" r="13" fill="#EBEEF3"/>
+      <ellipse cx="92" cy="82" rx="32" ry="9" fill="#FFFFFF"/>
+    </svg>`
+};
 
-const ICON_MOON = '<svg width="16" height="16" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 28 18 A 11 11 0 1 1 17 7 A 8 8 0 0 0 28 18 Z" fill="#F4C430"/><circle cx="6" cy="10" r="1" fill="#F4C430" opacity="0.75"/></svg>';
+const SMALL_ICONS = {
+  sunny: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#F2A322" stroke-width="1.3" stroke-linecap="round" opacity="0.8">
+      <line x1="14" y1="3" x2="14" y2="6"/><line x1="14" y1="22" x2="14" y2="25"/>
+      <line x1="3" y1="14" x2="6" y2="14"/><line x1="22" y1="14" x2="25" y2="14"/>
+      <line x1="6" y1="6" x2="8" y2="8"/><line x1="20" y1="6" x2="22" y2="8"/>
+      <line x1="6" y1="22" x2="8" y2="20"/><line x1="20" y1="22" x2="22" y2="20"/>
+    </g>
+    <circle cx="14" cy="14" r="6" fill="url(#sunCore)"/>
+  </svg>`,
+  sun_cloud: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="11" r="5" fill="url(#sunCore)"/>
+    <circle cx="15" cy="16" r="6" fill="url(#cloudPuff)"/>
+    <circle cx="20" cy="14" r="5" fill="url(#cloudPuff)"/>
+    <ellipse cx="17" cy="19" rx="9" ry="3" fill="#FFFFFF"/>
+  </svg>`,
+  cloudy: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="9" cy="13" r="6" fill="url(#cloudPuff)"/>
+    <circle cx="17" cy="11" r="7" fill="url(#cloudPuff)"/>
+    <ellipse cx="14" cy="16" rx="11" ry="3.5" fill="#FFFFFF"/>
+  </svg>`,
+  rainy: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="11" r="6" fill="url(#cloudPuff)"/>
+    <circle cx="18" cy="9" r="7" fill="url(#cloudPuff)"/>
+    <ellipse cx="14" cy="14" rx="10" ry="3.5" fill="#FFFFFF"/>
+    <path d="M9 20 L7.5 24" stroke="#6AA8D0" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M14 20 L12.5 24" stroke="#6AA8D0" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M19 20 L17.5 24" stroke="#6AA8D0" stroke-width="1.5" stroke-linecap="round"/>
+  </svg>`,
+  storm: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="11" r="6" fill="#9CA5B3"/>
+    <circle cx="18" cy="9" r="7" fill="#8E97A6"/>
+    <ellipse cx="14" cy="14" rx="10" ry="3.5" fill="#7B8694"/>
+    <path d="M14 17 L11 22 L14 22 L12 26 L18 20 L15 20 L17 17 Z" fill="#FFD83E"/>
+  </svg>`,
+  snowy: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="11" r="6" fill="url(#cloudPuff)"/>
+    <circle cx="18" cy="9" r="7" fill="url(#cloudPuff)"/>
+    <ellipse cx="14" cy="14" rx="10" ry="3.5" fill="#FFFFFF"/>
+    <circle cx="9" cy="22" r="1.5" fill="#FFFFFF" stroke="#B8C0CB" stroke-width="0.5"/>
+    <circle cx="14" cy="24" r="1.5" fill="#FFFFFF" stroke="#B8C0CB" stroke-width="0.5"/>
+    <circle cx="19" cy="22" r="1.5" fill="#FFFFFF" stroke="#B8C0CB" stroke-width="0.5"/>
+  </svg>`,
+  foggy: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#B8B0A4" stroke-width="2" stroke-linecap="round" opacity="0.85">
+      <line x1="5" y1="9" x2="23" y2="9"/>
+      <line x1="7" y1="15" x2="22" y2="15"/>
+      <line x1="5" y1="21" x2="20" y2="21"/>
+    </g>
+  </svg>`,
+  moon: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 19 14 A 7 7 0 1 1 12 7 A 5 5 0 0 0 19 14 Z" fill="url(#moonCore)"/>
+  </svg>`,
+  moon_cloud: `<svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 14 11 A 5 5 0 1 1 9 6 A 4 4 0 0 0 14 11 Z" fill="url(#moonCore)"/>
+    <circle cx="13" cy="16" r="6" fill="url(#cloudPuff)"/>
+    <circle cx="20" cy="14" r="5" fill="url(#cloudPuff)"/>
+    <ellipse cx="17" cy="19" rx="9" ry="3" fill="#FFFFFF"/>
+  </svg>`
+};
 
-const ICON_SUN_CLOUD = '<svg width="20" height="16" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="13" cy="13" r="6" fill="#F4C430"/><g stroke="#F4C430" stroke-width="1.5" stroke-linecap="round"><line x1="13" y1="2" x2="13" y2="5"/><line x1="2" y1="13" x2="5" y2="13"/><line x1="5" y1="5" x2="7" y2="7"/><line x1="21" y1="5" x2="19" y2="7"/></g><path d="M 16 22 Q 16 16 22 16 Q 28 16 29 21 Q 35 21 35 26 Q 35 30 30 30 L 16 30 Q 11 30 11 26 Q 11 22 16 22 Z" fill="#B8B0A4"/></svg>';
-
-const ICON_MOON_CLOUD = '<svg width="20" height="16" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 21 15 A 8 8 0 1 1 13 7 A 6 6 0 0 0 21 15 Z" fill="#F4C430"/><path d="M 16 22 Q 16 16 22 16 Q 28 16 29 21 Q 35 21 35 26 Q 35 30 30 30 L 16 30 Q 11 30 11 26 Q 11 22 16 22 Z" fill="#B8B0A4"/></svg>';
-
-const ICON_CLOUD = '<svg width="18" height="16" viewBox="0 0 40 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 24 Q 11 17 18 17 Q 25 16 27 22 Q 33 22 33 27 Q 33 31 28 31 L 11 31 Q 5 31 5 26 Q 5 22 11 24 Z" fill="#A8A095"/><path d="M 17 18 Q 17 13 22 13 Q 27 13 28 17" fill="none" stroke="#C4BCB0" stroke-width="2"/></svg>';
-
-const ICON_RAIN = '<svg width="18" height="18" viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 18 Q 11 11 18 11 Q 25 10 27 16 Q 33 16 33 21 Q 33 25 28 25 L 11 25 Q 5 25 5 20 Q 5 16 11 18 Z" fill="#A8A095"/><g stroke="#5B9BD5" stroke-width="2" stroke-linecap="round" fill="none"><line x1="13" y1="29" x2="11" y2="34"/><line x1="20" y1="29" x2="18" y2="34"/><line x1="27" y1="29" x2="25" y2="34"/></g></svg>';
-
-const ICON_STORM = '<svg width="18" height="18" viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 18 Q 11 11 18 11 Q 25 10 27 16 Q 33 16 33 21 Q 33 25 28 25 L 11 25 Q 5 25 5 20 Q 5 16 11 18 Z" fill="#7B7368"/><path d="M 19 26 L 15 32 L 19 32 L 16 36 L 23 29 L 19 29 L 22 26 Z" fill="#F4C430" stroke="#D4A420" stroke-width="0.5"/></svg>';
-
-const ICON_SNOW = '<svg width="18" height="18" viewBox="0 0 40 38" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 11 18 Q 11 11 18 11 Q 25 10 27 16 Q 33 16 33 21 Q 33 25 28 25 L 11 25 Q 5 25 5 20 Q 5 16 11 18 Z" fill="#C4C0B8"/><g fill="#FFFFFF" stroke="#A8A095" stroke-width="0.5"><circle cx="13" cy="31" r="1.8"/><circle cx="20" cy="34" r="1.8"/><circle cx="27" cy="31" r="1.8"/></g></svg>';
-
-const ICON_FOG = '<svg width="18" height="14" viewBox="0 0 40 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g stroke="#A8A095" stroke-width="2.5" stroke-linecap="round"><line x1="6" y1="8" x2="34" y2="8"/><line x1="10" y1="16" x2="32" y2="16"/><line x1="6" y1="24" x2="30" y2="24"/></g></svg>';
-
-const WEATHER_ICON_MAP = {
-  '01d': ICON_SUN,
-  '01n': ICON_MOON,
-  '02d': ICON_SUN_CLOUD,
-  '02n': ICON_MOON_CLOUD,
-  '03d': ICON_SUN_CLOUD,
-  '03n': ICON_MOON_CLOUD,
-  '04d': ICON_CLOUD,
-  '04n': ICON_CLOUD,
-  '09d': ICON_RAIN,
-  '09n': ICON_RAIN,
-  '10d': ICON_RAIN,
-  '10n': ICON_RAIN,
-  '11d': ICON_STORM,
-  '11n': ICON_STORM,
-  '13d': ICON_SNOW,
-  '13n': ICON_SNOW,
-  '50d': ICON_FOG,
-  '50n': ICON_FOG,
+const ICON_MAP = {
+  '01d': 'sunny', '01n': 'moon',
+  '02d': 'sun_cloud', '02n': 'moon_cloud',
+  '03d': 'sun_cloud', '03n': 'moon_cloud',
+  '04d': 'cloudy', '04n': 'cloudy',
+  '09d': 'rainy', '09n': 'rainy',
+  '10d': 'rainy', '10n': 'rainy',
+  '11d': 'storm', '11n': 'storm',
+  '13d': 'snowy', '13n': 'snowy',
+  '50d': 'foggy', '50n': 'foggy'
 };
 
 function pad2(n) { return n.toString().padStart(2, '0'); }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, function(c) {
-    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-  });
+function getIconKey(code) {
+  return ICON_MAP[code] || 'cloudy';
 }
 
 function updateGreeting() {
@@ -229,16 +501,14 @@ function updateGreeting() {
   else if (h < 18) g = 'Cześć';
   else if (h < 22) g = 'Dobry wieczór';
   else g = 'Dobranoc';
-
-  const zyczenie = ZYCZENIA[now.getDay()];
-  const greetingBase = NAME ? g + ', ' + NAME : g;
-  document.getElementById('greeting').textContent = greetingBase + ' — ' + zyczenie;
+  document.getElementById('greeting').textContent = NAME ? g + ', ' + NAME : g;
+  document.getElementById('wish').textContent = ZYCZENIA[now.getDay()];
 }
 
 function updateDate() {
   const now = new Date();
   document.getElementById('date').textContent =
-    DNI[now.getDay()] + ', ' + now.getDate() + ' ' + MIESIACE[now.getMonth()] + ' ' + now.getFullYear();
+    now.getDate() + ' ' + MIESIACE[now.getMonth()] + ' ' + now.getFullYear();
 }
 
 function updateTime() {
@@ -250,62 +520,95 @@ function updateQuote() {
   const now = new Date();
   const start = new Date(now.getFullYear(), 0, 0);
   const dayOfYear = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-  document.getElementById('quote').textContent = QUOTES[dayOfYear % QUOTES.length];
+  const slotsPerDay = Math.floor(24 / QUOTE_ROTATION_HOURS);
+  const hourSlot = Math.floor(now.getHours() / QUOTE_ROTATION_HOURS);
+  const idx = (dayOfYear * slotsPerDay + hourSlot) % QUOTES.length;
+  const q = QUOTES[idx];
+  document.getElementById('quote-text').textContent = q.text;
+  const authorEl = document.getElementById('quote-author');
+  authorEl.textContent = q.author ? '— ' + q.author : '';
 }
 
 async function updateWeather() {
-  const weatherEl = document.getElementById('weather');
   try {
-    if (!OPENWEATHER_API_KEY || OPENWEATHER_API_KEY.indexOf('WKLEJ') === 0) {
-      weatherEl.innerHTML = '<span>' + escapeHtml(CITY) + '</span>';
-      return;
-    }
     const url = 'https://api.openweathermap.org/data/2.5/weather' +
-                '?lat=' + LATITUDE +
-                '&lon=' + LONGITUDE +
+                '?lat=' + LATITUDE + '&lon=' + LONGITUDE +
                 '&appid=' + encodeURIComponent(OPENWEATHER_API_KEY) +
                 '&units=metric&lang=pl';
     const res = await fetch(url);
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
     const temp = Math.round(data.main.temp);
-    const iconCode = data.weather[0].icon;
-    const icon = WEATHER_ICON_MAP[iconCode] || ICON_CLOUD;
-    weatherEl.innerHTML = icon + '<span>' + temp + '°C · ' + escapeHtml(CITY) + '</span>';
+    const iconKey = getIconKey(data.weather[0].icon);
+    document.getElementById('temp').textContent = temp;
+    document.getElementById('city').textContent = CITY.toUpperCase();
+    document.getElementById('illustration').innerHTML = LARGE_ICONS[iconKey];
   } catch (e) {
-    weatherEl.innerHTML = '<span>' + escapeHtml(CITY) + '</span>';
+    document.getElementById('illustration').innerHTML = LARGE_ICONS.sun_cloud;
   }
 }
 
-function updateAll() {
+async function updateForecast() {
+  try {
+    const url = 'https://api.openweathermap.org/data/2.5/forecast' +
+                '?lat=' + LATITUDE + '&lon=' + LONGITUDE +
+                '&appid=' + encodeURIComponent(OPENWEATHER_API_KEY) +
+                '&units=metric&lang=pl';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    const todayStr = new Date().toDateString();
+    const byDay = {};
+    data.list.forEach(item => {
+      const d = new Date(item.dt * 1000);
+      const key = d.toDateString();
+      if (key === todayStr) return;
+      if (!byDay[key]) byDay[key] = { date: d, items: [] };
+      byDay[key].items.push(item);
+    });
+
+    const days = Object.values(byDay).slice(0, 5).map(day => {
+      let best = day.items[0];
+      let bestDiff = Math.abs(new Date(best.dt * 1000).getHours() - 12);
+      for (const it of day.items) {
+        const diff = Math.abs(new Date(it.dt * 1000).getHours() - 12);
+        if (diff < bestDiff) { best = it; bestDiff = diff; }
+      }
+      return {
+        date: day.date,
+        temp: Math.round(best.main.temp),
+        iconKey: getIconKey(best.weather[0].icon)
+      };
+    });
+
+    const forecastEl = document.getElementById('forecast');
+    forecastEl.innerHTML = days.map(d => `
+      <div class="forecast-day">
+        <div class="day-name">${DNI_SKROT[d.date.getDay()]}</div>
+        <div class="day-icon">${SMALL_ICONS[d.iconKey]}</div>
+        <div class="day-temp">${d.temp}°</div>
+      </div>
+    `).join('');
+  } catch (e) {
+    document.getElementById('forecast').innerHTML = '';
+  }
+}
+
+function tick() {
+  updateTime();
   updateGreeting();
   updateDate();
-  updateTime();
   updateQuote();
 }
 
-updateAll();
+tick();
 updateWeather();
+updateForecast();
 
-setInterval(updateTime, 60 * 1000);
-setInterval(updateGreeting, 60 * 1000);
+setInterval(tick, 60 * 1000);
 setInterval(updateWeather, 30 * 60 * 1000);
-
-(function scheduleQuoteRefresh() {
-  const now = new Date();
-  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 5);
-  const ms = tomorrow - now;
-  setTimeout(function() {
-    updateQuote();
-    updateDate();
-    updateGreeting();
-    setInterval(function() {
-      updateQuote();
-      updateDate();
-      updateGreeting();
-    }, 24 * 60 * 60 * 1000);
-  }, ms);
-})();
+setInterval(updateForecast, 60 * 60 * 1000);
 </script>
 </body>
 </html>
